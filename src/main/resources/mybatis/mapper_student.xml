@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="startSSM.DAO.StudentDAO">
+	<resultMap type="student" id="studentInfo">
+		<id column="id" property="id"></id>
+		<result column="name" property="name"></result>
+		<result column="class_id" property="classId"></result>
+		<collection property="scores" column="id" select="startSSM.DAO.StudentDAO.getStudentScoresById"></collection>
+	</resultMap>
+	
+	
+	<resultMap type="scores" id="scoresList">	
+		<id column="id" property="id"></id>
+		<result column="student_id" property="studentId"></result>
+		<result column="subject_id" property="score"></result>
+		<result column="score" property="score"></result>
+	</resultMap>
+	
+
+	<select id="getStudentById" parameterType="int" resultMap="studentInfo">
+		select id,name,class_id from student where id=#{id};
+	</select>
+	
+	
+	<select id="getStudentScoresById" parameterType="int" resultMap="scoresList">
+		select student_id,subject_id,score from student_score where student_id=#{id};
+	</select>
+	
+</mapper>

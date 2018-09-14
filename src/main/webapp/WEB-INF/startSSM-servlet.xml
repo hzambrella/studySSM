@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	 xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器  扫描的注解有哪些 -->
+	<context:component-scan base-package="startSSM"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Component" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<!-- 注解 -->
+	<annotation-driven />
+	<context:annotation-config />
+	
+	<!-- properties配置文件 -->
+	<beans:bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>/properties/mysql.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+   	<!-- 静态文件 -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/css/**" location="/css/" />
+	<!-- 2.0版本 -->
+	<resources mapping="/images/**" location="/images/" cache-period="31556927"/>
+	<resources mapping="/js/**" location="/js/" />
+	
+	<!-- 视图 -->
+		<!-- 处理jsp的渲染器 -->
+	<beans:bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/view/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+		<!-- 拦截器 -->
+	<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller,exclude-mapping来排除个别的 -->
+	<!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+<!-- 	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean class="filter" />
+   		</interceptor> 
+	</interceptors>  -->
+	
+	<!-- 文件上传用的参数解析器 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8" />
+		<beans:property name="maxUploadSize">
+			<beans:value>55242880
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 非注解的控制器 ,已经21世纪了-->
+	<!-- <bean name="/hello" class="com.hz.springMVC.HelloController"></bean> -->
+	<!--<beans:bean name="/beanMVC" class="com.hz.springMVC.HelloBeanMVC"></beans:bean>-->
+	<!-- <bean name="simpleFilter" class="com.hz.springFilter.simpleFilter"></bean> -->
+	
+	<!--数据库连接池 基于mybatis -->
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<beans:property name="driverClassName" value="${mysql.driver}" />
+		<beans:property name="url" value="${mysql.url}" />
+		<beans:property name="username" value="${mysql.username}" />
+		<beans:property name="password" value="${mysql.password}" />
+		<!-- 初始化连接大小 -->
+		<beans:property name="initialSize" value="${mysql.initialSize}"></beans:property>
+		<!-- 连接池最大数量 -->
+		<beans:property name="maxActive" value="${mysql.maxActive}"></beans:property>
+		<!-- 连接池最大空闲 -->
+		<beans:property name="maxIdle" value="${mysql.maxIdle}"></beans:property>
+		<!-- 连接池最小空闲 -->
+		<beans:property name="minIdle" value="${mysql.minIdle}"></beans:property>
+		<!-- 获取连接最大等待时间 -->
+		<beans:property name="maxWait" value="${mysql.maxWait}"></beans:property>
+	</beans:bean>
+	
+	<!-- mybatis的sqlSessionFactory 属性是DataSource-->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<!--configLocation属性指定mybatis的核心配置文件，文件里面配置别名和mapperXML -->
+		<beans:property name="configLocation" value="classpath:mybatis/mybatis.xml" />
+	</beans:bean>
+	
+	<!-- mapper dao -->
+	<beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- dao mapper所要扫描的包 ,包名是DAO-->
+		<beans:property name="basePackage" value="startSSM.DAO"></beans:property>
+		<beans:property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></beans:property>
+	</beans:bean>
+	
+	<!-- 事务 -->
+	<beans:bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
+</beans:beans>

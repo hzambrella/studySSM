@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- 给类一个短名字 -->
+	<typeAliases>
+		<typeAlias alias="student" type="startSSM.Model.Student" />
+		<typeAlias alias="scores" type="startSSM.Model.Scores" />
+	</typeAliases>
+	
+	<!-- dataSource和enviroment就不需要了,在spring配置文件中的DataSource已经有了 -->
+
+	<mappers>
+		<mapper resource="/mybatis/mapper_student.xml" />
+	</mappers>
+
+</configuration>
