@@ -9,7 +9,16 @@ public class Student{
 	int id;
 	String name;
 	int classId;
+	String sumScore;
 	ArrayList<Scores> scores;
+	
+	public String getSumScore() {
+		return sumScore;
+	}
+	public void setSumScore(String sumScore) {
+		this.sumScore = sumScore;
+	}
+	
 	public int getId() {
 		return id;
 	}

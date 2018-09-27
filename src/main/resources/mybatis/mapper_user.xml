@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="startSSM.DAO.UserDAO">
+	<!-- 联系insert和拼接 -->
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+		insert into user_table
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				id,
+			</if>
+			<if test="name!=null">
+				name,
+			</if>
+			<if test="age!=null">
+				age,
+			</if>
+			<if test="sex!=null">
+				sex,
+			</if>
+			<if test="tel!=null">
+				tel,
+			</if>
+			<if test="addr!=null">
+				addr,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				#{id},
+			</if>
+			<if test="name!=null">
+				#{name},
+			</if>
+			<if test="age!=null">
+				#{age},
+			</if>
+			<if test="sex!=null">
+				#{sex},
+			</if>
+			<if test="tel!=null">
+				#{tel},
+			</if>
+			<if test="addr!=null">
+				#{addr},
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="getUser" parameterType="user" resultType="user">
+		select id,name,sex,age,tel,addr,create_time from user_table
+		<trim prefix="where" prefixOverrides="and">
+		<if test="id!=0">
+			and id=#{id}
+		</if>
+		<if test="name!=null">
+			<bind name="pattern_name"  value="'%'+name+'%'"/>
+			and name like #{pattern_name}
+		</if>
+		</trim>
+	</select>
+	
+</mapper>

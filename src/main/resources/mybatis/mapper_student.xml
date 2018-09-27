@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="startSSM.DAO.StudentDAO">
+		
+<!-- 	resultType的使用 -->
+	<select id="getStudentSumScoreById" parameterType="int" resultType="int">
+		select t1.sum_score as sum_score from(
+		select student_id,sum(score) as sum_score from student_score group by student_id)as t1
+		where t1.student_id=#{id};
+	</select>
+	
+	<select id="getStudentByIdAsMap" parameterType="int" resultType="HashMap">
+		select id,name,class_id as classId from student where id=#{id};
+	</select>
+	
+	<select id="getStudentsByClassId" parameterType="int" resultType="student">
+		select id,name,class_id as classId from student where class_id=#{classId};
+	</select>
+	
+	
+<!-- 	resultMap的使用 -->
 	<resultMap type="student" id="studentInfo">
 		<id column="id" property="id"></id>
 		<result column="name" property="name"></result>
 		<result column="class_id" property="classId"></result>
+		<result column="sum_score" property="sumScore"></result>
 		<collection property="scores" column="id" select="startSSM.DAO.StudentDAO.getStudentScoresById"></collection>
 	</resultMap>
 	
@@ -15,15 +34,23 @@
 		<result column="subject_id" property="score"></result>
 		<result column="score" property="score"></result>
 	</resultMap>
-	
 
 	<select id="getStudentById" parameterType="int" resultMap="studentInfo">
 		select id,name,class_id from student where id=#{id};
 	</select>
 	
-	
 	<select id="getStudentScoresById" parameterType="int" resultMap="scoresList">
 		select student_id,subject_id,score from student_score where student_id=#{id};
 	</select>
+	
+	<select id="getStudentByScore"  resultMap="studentInfo">
+		SELECT t1.id as id,t1.name as name ,t1.class_id as class_id,
+		sum(t2.score) as sum_score
+		FROM study.student as t1,student_score as t2 where t1.id=t2.student_id
+		group by t2.student_id having sum_score>#{score};
+	</select>
+	
+	<!-- 标签的使用 -->
+	
 	
 </mapper>

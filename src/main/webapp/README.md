@@ -33,3 +33,33 @@ FLUSH PRIVILEGES;
 
 2. Unknown initial character set index '255' received from server. Initial client character set can be</br>
 直接在连接的URL后加上?useUnicode=true&characterEncoding=utf8就可以了
+
+## 需求
+花式查学生的成绩
+
+## 数据表
+### 学生表
+
+```
+学生课程-成绩表
+CREATE TABLE `student` (
+  `id` int(11) NOT NULL DEFAULT 0',
+  `name` varchar(5) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class` (`class_id`)
+) ENGINE=InnoDB
+
+```
+
+
+```
+CREATE TABLE `student_score` (
+  `student_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `score` decimal(6,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`student_id`,`subject_id`),
+  KEY `score` (`score`)
+) ENGINE=InnoDB
+
+```

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 import startSSM.DAO.StudentDAO;
 import startSSM.Model.Student;
-import startSSM.Service.StudentService;
+import startSSM.Service.IStudentService;
 
 @Service("StudentService")
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements IStudentService{
 	@Autowired
 	StudentDAO studentDao;
 	
