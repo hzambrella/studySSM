@@ -3,16 +3,18 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-<!-- 	 <settings>
+<!-- <settings>
         打印sql语句,調試時候用
         <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings> -->
     
 	<!-- 给类一个短名字 -->
 	<typeAliases>
-		<typeAlias alias="student" type="startSSM.Model.Student" />
-		<typeAlias alias="scores" type="startSSM.Model.Scores" />
-		<typeAlias alias="user" type="startSSM.Model.User" />
+		<typeAlias alias="student" type="startSSM.model.Student" />
+		<typeAlias alias="scores" type="startSSM.model.Scores" />
+		<typeAlias alias="user" type="startSSM.model.User" />
+		<typeAlias alias="good" type="startSSM.model.Good" />
+		<typeAlias alias="order" type="startSSM.model.Order" />
 	</typeAliases>
 	
 	<!-- dataSource和enviroment就不需要了,在spring配置文件中的DataSource已经有了 -->
@@ -21,6 +23,8 @@
 	<mappers>
 		<mapper resource="mybatis/mapper_student.xml" />
 		<mapper resource="mybatis/mapper_user.xml" />
+		<mapper resource="mybatis/mapper_good.xml" />
+		<mapper resource="mybatis/mapper_order.xml" />
 	</mappers>
 
 </configuration>

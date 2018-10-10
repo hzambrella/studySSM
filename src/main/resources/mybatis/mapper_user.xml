@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="startSSM.DAO.UserDAO">
+<mapper namespace="startSSM.dao.UserDAO">
 	<!-- 联系insert和拼接 -->
 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
 		insert into user_table
@@ -45,18 +45,99 @@
 			</if>
 		</trim>
 	</insert>
-	
+
+	<sql id="userMessage">
+		id,name,account,sex,age,tel,addr,create_time,money,cost
+	</sql>
+
+
 	<select id="getUser" parameterType="user" resultType="user">
-		select id,name,sex,age,tel,addr,create_time from user_table
+		<bind name="pattern_name" value="'%'+name+'%'" />
+		select
+		<include refid="userMessage"></include>
+		from user_table
+		<choose>
+			<when test="id!=0">
+				where id=#{id}
+			</when>
+			<when test="name!=null">
+				where name like #{pattern_name}
+			</when>
+			<when test="account!=null">
+				where account like #{pattern_name}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 练习foreach -->
+	<select id="getUserByIds" parameterType="java.util.List"
+		resultType="user">
+		select
+		<include refid="userMessage"></include>
+		from user_table where id in
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<insert id="insertUsers" parameterType="java.util.List"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into user_table (name,sex,age,tel,addr) values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.name},#{item.sex},#{item.age},#{item.tel},#{item.addr})
+		</foreach>
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="deleteUsers">
+		delete from user_table
 		<trim prefix="where" prefixOverrides="and">
-		<if test="id!=0">
-			and id=#{id}
-		</if>
-		<if test="name!=null">
-			<bind name="pattern_name"  value="'%'+name+'%'"/>
-			and name like #{pattern_name}
-		</if>
+			<if test="id>0">
+				and id=#{id}
+			</if>
+			<if test="name!=''">
+				and name=#{name}
+			</if>
 		</trim>
+	</delete>
+	<update id="updateUser" parameterType="user">
+		update user_table
+		<set>
+			<if test="name!=null">
+				name=#{name},
+			</if>
+			<if test="age!=0">
+				age=#{age},
+			</if>
+			<if test="sex>0">
+				sex=#{sex},
+			</if>
+			<if test="tel!=null">
+				tel=#{tel},
+			</if>
+			<if test="addr!=null">
+				addr=#{addr},
+			</if>
+			
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+	
+	<select id="checkPassword" parameterType="string" resultType="String">
+		select password from user_table where account=#{account}
 	</select>
 	
+	<select id="getUserById" parameterType="int" resultType="user">
+		select <include refid="userMessage"></include> from user_table where id=#{id}
+	</select>
+	
+	<select id="getUserByAccount" parameterType="string" resultType="user">
+		select <include refid="userMessage"></include> from user_table where account=#{account}
+	</select>
+
 </mapper>

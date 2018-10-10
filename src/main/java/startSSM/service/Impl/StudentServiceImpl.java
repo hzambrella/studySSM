@@ -5,14 +5,14 @@
  * @author lenovo
  *
  */
-package startSSM.ServiceImpl;
+package startSSM.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import startSSM.DAO.StudentDAO;
-import startSSM.Model.Student;
-import startSSM.Service.IStudentService;
+import startSSM.dao.StudentDAO;
+import startSSM.model.Student;
+import startSSM.service.IStudentService;
 
 @Service("StudentService")
 public class StudentServiceImpl implements IStudentService{

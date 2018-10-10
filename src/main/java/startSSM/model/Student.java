@@ -1,11 +1,12 @@
-package startSSM.Model;
+package startSSM.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class Student{
+public class Student implements Serializable{
 	int id;
 	String name;
 	int classId;

@@ -1,6 +1,6 @@
-package startSSM.Service;
+package startSSM.service;
 
-import startSSM.Model.Student;
+import startSSM.model.Student;
 
 public interface IStudentService{
 	public Student getStudentInfo(int id);

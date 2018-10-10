@@ -1,9 +1,11 @@
-package startSSM.Model;
+package startSSM.model;
+
+import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class Scores {
+public class Scores implements Serializable{
 	int studentId;
 	int subjectId;
 	String score;

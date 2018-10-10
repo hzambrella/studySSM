@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>商品</title>
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <!--防止中文乱码-->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!--缓存禁止-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <style type="text/css">
+  </style>
+  <link href="../css/good.css" rel="stylesheet" />
+  <script src="../js/vendor/jquery-3.2.1.min.js"></script>
+  <script src="../js/vendor/template.js"></script>
+</head>
+
+<input id="shopId" value=1 style="display:none">
+<div id="top">
+
+</div>
+
+<div id="middle">
+  <div id="operate">
+    <button id="buy">购买</button>
+    <button id="refresh">刷新</button>
+  </div>
+  <table id="good_table" border="0">
+    <thead>
+      <tr>
+        <th style="display:none">goodId</th>
+        <th>名字</th>
+        <th>价格</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <!--<tr>
+      <td>January</td>
+      <td>$100</td>
+      <td><input type="number" min=0 max=999></td>
+    </tr>-->
+  </table>
+</div>
+
+<script id="table_tpl" type="text/html">
+  <%for(var i = 0; i < list.length; i++) {%>
+    <tr>
+      <td class="goodId" style="display:none" name="<%:=list[i].goodId%>">
+	  <td class="price" style="display:none" name="<%:=list[i].price%>">
+      </td>
+      <td>
+        <%:=list[i].name%>
+      </td>
+      <td>
+        <%:=list[i].price%>
+      </td>
+      <td><input type="number" min=0 max=999 value=0></td>
+    </tr>
+    <%}%>
+</script>
+
+
+<script>
+  var shopId = $("#shopId").val();
+  $(document).ready(function () {
+
+    getData(shopId);
+
+
+    $("#buy").click(function () {
+      var list = [];
+      var gid;
+      var num = 0;
+      $("#good_table tbody tr").each(function () {
+        gid = $(this).find(".goodId").attr("name");
+        num = $(this).find("input").val();
+        price=$(this).find(".price").attr("name");
+        if (num != 0) {
+          list.push({
+            "goodId": gid,
+            "number": num,
+            "price":price,
+          });
+        }
+      })
+
+      if (list.length == 0) {
+        return;
+      } else {
+        //ajax
+        $.ajax({
+          url: "/startSSM/good/buyGoods",
+          method: 'post',
+          dataType: 'json',
+          contentType:"application/json",//springMVC用@RequestBody接受对象数组时，接受必不可少
+          data: JSON.stringify(list),
+          success: function (data) {
+            alert("购买成功")
+          },
+          error: function (data, status, e) {
+            console.log(e)
+            alert("获取数据失敗")
+          }
+        })
+      }
+
+
+    })
+
+
+    $("#refresh").click(function () {
+      $("#good_table tbody").empty();
+      getData(shopId);
+    })
+  })
+
+  var getData = function (id) {
+
+    $.ajax({
+      url: "/startSSM/good/getGoods",
+      method: 'get',
+      dataType: 'json',
+      data: {
+        shopId: id
+      },
+      success: function (data) {
+        renderData(data)
+      },
+      error: function (data, status, e) {
+        console.log(e)
+        alert("获取数据失敗")
+      }
+    })
+
+    //renderData(data);
+  }
+
+
+  var renderData = function (data) {
+    dataList = deepClone(data);
+    for (var i = 0; i < dataList.length; i++) {
+      dataList[i].priceStr = dataList[i].price / 100;
+    }
+
+    var tpl = document.getElementById('table_tpl').innerHTML;
+    var _HTML = template(tpl, {
+      list: dataList
+    });
+    $("#good_table tbody").append(_HTML);
+  }
+
+  var deepClone = function (obj) {
+    var _tmp, result;
+    _tmp = JSON.stringify(obj);
+    result = JSON.parse(_tmp);
+    return result;
+  }
+
+  mockData = [{
+    "description": 0,
+    "goodId": 10000,
+    "icon": "",
+    "name": "无尽之刃",
+    "price": 380000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10001,
+    "icon": "",
+    "name": "血瓶",
+    "price": 5000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10002,
+    "icon": "",
+    "name": "真视守卫",
+    "price": 7500,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10003,
+    "icon": "",
+    "name": "多兰剑",
+    "price": 45000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10004,
+    "icon": "",
+    "name": "多兰戒",
+    "price": 40500,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10005,
+    "icon": "",
+    "name": "短剑",
+    "price": 30000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10006,
+    "icon": "",
+    "name": "长剑",
+    "price": 45000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10007,
+    "icon": "",
+    "name": "无用大棒",
+    "price": 160000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10008,
+    "icon": "",
+    "name": "爆裂法杖",
+    "price": 85000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10009,
+    "icon": "",
+    "name": "布甲",
+    "price": 30000,
+    "shopId": 1
+  }, {
+    "description": 0,
+    "goodId": 10010,
+    "icon": "",
+    "name": "荆棘之甲",
+    "price": 235000,
+    "shopId": 1
+  }]
+</script>
+
+</html>

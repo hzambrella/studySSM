@@ -10,24 +10,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
-import startSSM.Model.User;
-import startSSM.Service.IUser;
+import startSSM.model.User;
+import startSSM.service.IUser;
 
 @Controller
 @RequestMapping("/user")
 public class UserCotroller {
 	@Resource(name="userService")
-	IUser userSerivce;
-	
-	@RequestMapping("/register")
-	public String register(){
-		return "register";
-	}
+	IUser userService;
 	
 	@RequestMapping("/add")
 	@ResponseBody
 	public String add(User user){
-		int id=userSerivce.insertUser(user);
+		int id=userService.insertUser(user);
 		HashMap<String,String> resultMap=new HashMap<>();
 		resultMap.put("message","OK");
 		resultMap.put("id",String.valueOf(id));

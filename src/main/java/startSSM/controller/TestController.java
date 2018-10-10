@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import startSSM.Model.Student;
-import startSSM.Service.IStudentService;
+import startSSM.util.dto.Result;
+import startSSM.model.Student;
+import startSSM.service.IStudentService;
+
 import com.alibaba.fastjson.JSON;
 
 
@@ -29,8 +31,8 @@ public class TestController {
 	@ResponseBody
 	public String userInfo(@RequestParam("id")int id){
 		Student student=testService.getStudentInfo(id);
-		
 		System.out.println(student.getScores());
-		return JSON.toJSONString(student);
+		Result<Student> result=new Result<>(Result.Success,true,"",student);
+		return JSON.toJSONString(result);
 	}
 }

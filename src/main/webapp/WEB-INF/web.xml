@@ -9,16 +9,20 @@
     <display-name>startSSM</display-name>
 
     <!-- 设定Spring的根上下文 -->
-<!--     <context-param>
+	<context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/applicationContext.xml</param-value>
+        <param-value>
+        classpath:spring/applicationContext.xml,
+        classpath:spring/spring-mybatis.xml,
+        classpath:spring/spring-redis.xml
+        </param-value>
     </context-param>
  
     <listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
-    </listener> -->
+    </listener>
     
     <!-- 过滤器 -->
     <filter>
@@ -38,17 +42,12 @@
 
 	<!-- DispatcherServlet  servlet-name要和spring主文件的名字一样-->
 <!-- 	spring主文件在 /WEB-INF startSSM-servlet.xml -->
-	  <servlet>
+	<servlet>
    	  <description>DispatcherServlet springMVC的基石</description>
       <servlet-name>startSSM</servlet-name>
       <servlet-class>
          org.springframework.web.servlet.DispatcherServlet
       </servlet-class>
-<!--            <init-param>  
-            <param-name>contextConfigLocation</param-name>  
-            <param-value>classpath:startSSM-servlet.xml</param-value>  
-        </init-param>  -->
-      
       <load-on-startup>1</load-on-startup>
    </servlet>
    <servlet-mapping>

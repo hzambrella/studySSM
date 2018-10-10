@@ -1,0 +1,36 @@
+#top {
+    height: 100px;
+    /*background: gainsboro;*/
+}
+
+/*#middle {
+}*/
+
+table {
+    margin: 0 auto;
+    width: 1000px;
+    min-height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table,
+table tr th,
+table tr td {
+    border: 1px solid #0094ff;
+    padding:10px 40px; 
+}
+
+#buy{
+    margin:0 auto;
+}
+
+#operate{
+    width:1000px;
+    margin:20px auto;
+}button{
+    margin:0 20px;
+    width:80px;
+    height:50px;
+}

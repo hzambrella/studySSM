@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="startSSM.dao.GoodDAO">
+	<sql id="goodMessage">
+		id as goodId,shop_id as shopId,name,price,description,icon
+	</sql>
+	<select id="getGoodsByShopId" resultType="good" parameterType="int">
+		select<include refid="goodMessage"></include> from user_good 
+		where shop_id=#{shopId}
+	</select>
+	
+	<select id="getGoodsPriceByIds" parameterType="list" resultType="int">
+		select price from user_good where id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

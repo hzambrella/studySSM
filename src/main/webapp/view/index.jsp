@@ -7,7 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Insert title here</title>
             <!--jquery-->
-        <script src="/sweepFaceOL/view/js/vendor/jquery-3.2.1.min.js"></script>
+        <script src="/js/vendor/jquery-3.2.1.min.js"></script>
     </head>
 
     <body>
