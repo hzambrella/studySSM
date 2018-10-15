@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("serial")
 public class Cart implements Serializable{
 	private int goodId;
 	private int number;
@@ -22,6 +23,7 @@ public class Cart implements Serializable{
 	public int getGoodId() {
 		return goodId;
 	}
+	
 	public void setGoodId(int goodId) {
 		this.goodId = goodId;
 	}

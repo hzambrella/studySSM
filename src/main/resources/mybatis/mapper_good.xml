@@ -15,4 +15,8 @@
 			#{id}
 		</foreach>
 	</select>
+	
+	<select id="getGoodPriceById" parameterType="int" resultType="int">
+		select price from user_good where id=#{goodId}
+	</select>
 </mapper>

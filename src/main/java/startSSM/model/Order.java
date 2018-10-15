@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import startSSM.dto.Cart;
 
+@SuppressWarnings("serial")
 public class Order implements Serializable{
 	private String orderId;
 	private int userId;
@@ -12,6 +13,13 @@ public class Order implements Serializable{
 	private int price;
 	
 	public static int CreateOrderFail=2000;
+	public static int OrderNotFound=2404;
+	public static String OrderNotFoundMess="订单不存在";
+	
+	//未支付
+	public static int NotPayed=0;
+	//已支付
+	public static int Payed=1;
 	
 	public int getNumber() {
 		return number;

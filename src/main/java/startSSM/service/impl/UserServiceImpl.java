@@ -1,4 +1,4 @@
-package startSSM.service.Impl;
+package startSSM.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements IUser {
 	public Result<User> login(String account, String password) {
 		User user=userDAO.getUserByAccount(account);
 		if (user==null){
-			Result<User> result=new Result<>(User.UserNotFound,false,"用户不存在");
+			Result<User> result=new Result<>(User.UserNotFound,false,User.UserNotFoundMess,null);
 			return result;
 		}
 		
@@ -44,8 +44,14 @@ public class UserServiceImpl implements IUser {
 			Result<User> result=new Result<>(Result.Success,true,"",user);
 			return result;
 		}else{
-			Result<User> result=new Result<>(User.UserWrongPass,false,"密码错误");
+			Result<User> result=new Result<>(User.UserWrongPass,false,User.UserWrongPassMess,null);
 			return result;
 		}
+	}
+
+	@Override
+	public Result<User> TestTx(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

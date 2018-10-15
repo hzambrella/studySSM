@@ -121,7 +121,12 @@
 			<if test="addr!=null">
 				addr=#{addr},
 			</if>
-			
+			<if test="money!=null">
+				money=#{money},
+			</if>
+			<if test="cost!=null">
+				cost=#{cost},
+			</if>
 		</set>
 		<where>
 			id=#{id}

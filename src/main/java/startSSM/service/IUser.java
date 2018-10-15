@@ -8,4 +8,5 @@ public interface IUser {
 	public User getUser(int id,String account);
 	public Result<User> login(String account,String password);
 	
+	public Result<User> TestTx(User user);
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 @Component
+@SuppressWarnings("serial")
 public class Student implements Serializable{
 	int id;
 	String name;

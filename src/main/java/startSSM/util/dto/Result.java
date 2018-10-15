@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Result<T> implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	public int code; // 结果码 结果码为0表示无错误，其它则有错误
@@ -39,6 +38,13 @@ public class Result<T> implements Serializable {
 		this.code = Success;
 		this.success=true;
 		this.message = "操作成功";
+	}
+	
+	public Result(T obj) {
+		this.code = Success;
+		this.success=true;
+		this.message = "操作成功";
+		this.obj=obj;
 	}
 	
 	public Result(int code,boolean success ,String message) {

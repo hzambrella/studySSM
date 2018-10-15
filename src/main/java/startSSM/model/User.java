@@ -2,6 +2,9 @@ package startSSM.model;
 
 import java.io.Serializable;
 
+import startSSM.exception.UserMoneyNotEnoughException;
+
+@SuppressWarnings("serial")
 public class User implements Serializable{
 	private int id;
 	private String name;
@@ -16,7 +19,14 @@ public class User implements Serializable{
 	
 	public static int UserNotFound=1000;
 	public static int UserWrongPass=1001;
-
+	public static int UserMoneyNotEnough=1010;
+	
+	public static String UserNotFoundMess="用户未找到";
+	public static String UserWrongPassMess="用户密码错误";
+	public static String UserMoneyNotEnoughMess="用户余额不足";
+	
+	public static UserMoneyNotEnoughException MoneyNotEnoughException=new UserMoneyNotEnoughException("not enough money");
+	
 	public User() {
 	}
 

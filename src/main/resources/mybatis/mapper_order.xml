@@ -7,4 +7,15 @@
 			(#{order.orderId},#{order.userId},#{order.goodId},#{order.number},#{order.price})
 		</foreach>
 	</insert>
+	<sql id="selectOrder">
+		order_id,user_id,good_id,number,price,create_time,update_time,status
+	</sql>
+	
+	<select id="getOrderByOrderId" parameterType="string" resultType="order">
+		select <include refid="selectOrder"></include>from user_order where order_id=#{orderId}
+	</select>
+	
+	<update id="updateOrderStatusById">
+		update user_order set status=#{status} where order_id=#{orderId}
+	</update>
 </mapper>

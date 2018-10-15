@@ -2,6 +2,7 @@ package startSSM.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Good implements Serializable {
 	private int goodId;
 	private int shopId;
@@ -9,6 +10,9 @@ public class Good implements Serializable {
 	private int price;
 	private int description;
 	private String icon;
+	
+	public static int GoodPriceNotLatest=3000;
+	public static String GoodPriceNotLatestMess="价格数据不是最新的";
 	
 	public int getGoodId() {
 		return goodId;

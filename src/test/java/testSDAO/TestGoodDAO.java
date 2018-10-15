@@ -42,4 +42,10 @@ public class TestGoodDAO {
 		boolean condition=prices.equals(result);
 		Assert.assertTrue(condition);
 	}
+	
+	@Test
+	public void testGetGoodPriceById(){
+		int price=goodDao.getGoodPriceById(10005);
+		Assert.assertEquals(price, 30000);
+	}
 }

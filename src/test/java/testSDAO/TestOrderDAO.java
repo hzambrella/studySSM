@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
+
 import startSSM.dao.OrderDAO;
 import startSSM.model.Order;
 
@@ -23,10 +25,11 @@ public class TestOrderDAO {
 	
 	@Test
 	public void testUUID(){
-		System.out.println(UUID.randomUUID().toString().replace("-","").length());
+		System.out.println(UUID.randomUUID().toString().replace("-",""));
 	}
-
-/*	public void testCreateOrder(){
+	
+	public void testCreateOrder(){
+		String orderId=UUID.randomUUID().toString().replace("-","");
 		int goodId=10000;
 		int number=1;
 		List<Order>list=new ArrayList<>();
@@ -35,12 +38,19 @@ public class TestOrderDAO {
 			order.setUserId(1);
 			order.setGoodId(goodId);
 			order.setNumber(number);
-			order.setOrderId("adsfa1231");
+			order.setOrderId(orderId);
 			order.setPrice(10000);
 			goodId++;
 			number++;
 			list.add(order);
 		}
 		orderDao.createOrder(list);
-	}*/
+		orderDao.updateOrderStatusById(orderId, Order.Payed);
+	}
+	
+	@Test
+	public void testGetOrder(){
+		List<Order>list=orderDao.getOrderByOrderId("adsfa1231");
+		System.out.println(JSON.toJSONString(list));
+	}
 }

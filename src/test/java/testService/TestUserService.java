@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.alibaba.fastjson.JSON;
+
 import startSSM.util.dto.Result;
 import startSSM.model.User;
 import startSSM.service.IUser;
@@ -16,7 +18,7 @@ import startSSM.service.IUser;
 @ContextConfiguration(locations = {
 		"classpath:spring/applicationContext_test.xml",
 		"classpath:spring/spring-mybatis.xml" })
-public class testUserService{
+public class TestUserService{
 	@Resource(name="userService")
 	IUser userService;
 	
@@ -27,6 +29,7 @@ public class testUserService{
 		Assert.assertEquals(user.getObj().getName(), "哈哈");
 		
 		Result<User> user2=userService.login("user1", "1234567");
-		Assert.assertNull(user2);
+		System.out.println(JSON.toJSONString(user2));
+		Assert.assertEquals(user2.code,User.UserWrongPass);
 	}
 }
